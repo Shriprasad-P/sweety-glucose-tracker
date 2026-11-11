@@ -21,7 +21,7 @@ React, React Router, Vite, Tailwind CSS, Fetch, and Lucide on the frontend. Node
 Prerequisites are Node.js 22.13+ on the 22.x line or Node.js 24+, npm, and PostgreSQL 15+. Run these commands from the project root.
 
 ```sh
-npm install
+npm ci
 cp .env.example .env
 node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 ```

@@ -8,7 +8,8 @@
     "start": "node --env-file-if-exists=../.env index.js",
     "db:migrate": "node --env-file-if-exists=../.env db/migrate.js",
     "db:seed": "node --env-file-if-exists=../.env db/seed.js",
-    "test": "node --env-file-if-exists=../.env ../node_modules/vitest/vitest.mjs run"
+    "test": "node --env-file-if-exists=../.env --run test:api",
+    "test:api": "vitest run"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
