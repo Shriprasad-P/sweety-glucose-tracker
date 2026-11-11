@@ -116,7 +116,9 @@ Requests and responses use JSON. Success responses use `{ "data": ... }` and err
 
 A reading body is `{ "date": "2026-10-15", "slot": "morning", "value": 105 }`. Slot keys are `morning`, `after_breakfast`, `after_lunch`, and `after_dinner`. All reading and report routes require a valid session. Requests for another account's reading ID return 404.
 
-## Design decisions
+## Notes
+
+### Assumptions
 
 - Reading days use PostgreSQL `DATE` values and are transmitted as `YYYY-MM-DD`. `APP_TIME_ZONE` determines today's calendar date, the maximum allowed date, and the seed dates. The server validates the limit for every request.
 - The composite unique constraint on user, date, and slot also supports the report date range query. With four allowed slots, the database guarantees a maximum of four readings per day even when requests arrive concurrently. On a full day, a new entry returns the daily limit message.
@@ -124,6 +126,6 @@ A reading body is `{ "date": "2026-10-15", "slot": "morning", "value": 105 }`. S
 - Passwords are bcrypt hashes using cost 12. JWTs last seven days and are stored in HTTP-only, SameSite=Lax cookies, with the Secure flag and host prefix in production. Each JWT references a PostgreSQL session that logout revokes.
 - The demonstration uses synthetic readings and a local-only demo account. The seed command refuses to run in production.
 
-## Improvements with more time
+### Improvements with more time
 
 Add paginated history, charts for recorded values, broader keyboard and screen-reader coverage, and account recovery. A multi-instance deployment would also benefit from shared rate limiting and scheduled cleanup of expired sessions.
