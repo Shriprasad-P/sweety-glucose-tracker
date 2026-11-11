@@ -7,6 +7,7 @@ export default [
   { ignores: ['**/dist/**', '**/coverage/**'] },
   js.configs.recommended,
   { files: ['**/*.js'], languageOptions: { globals: globals.node } },
+  { files: ['e2e/**/*.js'], languageOptions: { globals: globals.browser } },
   {
     files: ['client/src/**/*.{js,jsx}'],
     languageOptions: {
