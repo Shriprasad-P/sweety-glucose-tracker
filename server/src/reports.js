@@ -14,8 +14,16 @@ export function createReports({ pool, config, now }) {
     const { date } = validate(queryInput, req.query);
     validateDate(date, config.timeZone, now());
     const range = reportRange(kind, date);
-    if (!range) throw new HttpError(400, 'INVALID_INPUT', 'Choose a date with a previous calendar month.', 'date');
-    const { rows: [report] } = await pool.query(
+    if (!range)
+      throw new HttpError(
+        400,
+        'INVALID_INPUT',
+        'Choose a date with a previous calendar month.',
+        'date',
+      );
+    const {
+      rows: [report],
+    } = await pool.query(
       `WITH period AS (
          SELECT * FROM readings WHERE user_id = $1 AND reading_date BETWEEN $2 AND $3
        )

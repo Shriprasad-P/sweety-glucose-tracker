@@ -19,13 +19,18 @@ export default function SessionProvider({ children }) {
         if (error.status === 401) return null;
         throw error;
       }),
-    ]).then(([config, account]) => {
-      if (abort.signal.aborted) return;
-      setUser(account);
-      setConfig(config);
-    }).catch(() => {
-      if (!abort.signal.aborted) setError('Sweety could not connect. Check that the server is running.');
-    });
+    ])
+      .then(([config, account]) => {
+        if (abort.signal.aborted) return;
+        setUser(account);
+        setConfig(config);
+      })
+      .catch(() => {
+        if (!abort.signal.aborted)
+          setError(
+            'Sweety could not connect. Check that the server is running.',
+          );
+      });
     return () => {
       abort.abort();
       window.removeEventListener('sweety:session-expired', expire);
@@ -42,13 +47,25 @@ export default function SessionProvider({ children }) {
   }
 
   if (!config) {
-    return <main className="center-screen"><StatePanel
-      loading={!error} error={error}
-      retry={() => { setError(''); setAttempt((value) => value + 1); }}
-    /></main>;
+    return (
+      <main className="center-screen">
+        <StatePanel
+          loading={!error}
+          error={error}
+          retry={() => {
+            setError('');
+            setAttempt((value) => value + 1);
+          }}
+        />
+      </main>
+    );
   }
 
-  return <SessionContext.Provider value={{ user, timeZone: config.timeZone, authenticate, logout }}>
-    {children}
-  </SessionContext.Provider>;
+  return (
+    <SessionContext.Provider
+      value={{ user, timeZone: config.timeZone, authenticate, logout }}
+    >
+      {children}
+    </SessionContext.Provider>
+  );
 }

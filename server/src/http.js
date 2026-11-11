@@ -19,7 +19,11 @@ export function mutationGuard(origin) {
     if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
     const source = req.get('Origin');
     if (req.get('X-Sweety-Request') !== '1' || (source && source !== origin)) {
-      throw new HttpError(403, 'FORBIDDEN', 'This request did not come from an allowed client.');
+      throw new HttpError(
+        403,
+        'FORBIDDEN',
+        'This request did not come from an allowed client.',
+      );
     }
     next();
   };
@@ -28,11 +32,23 @@ export function mutationGuard(origin) {
 export function handleError(error, _req, res, next) {
   if (res.headersSent) return next(error);
   let known = error instanceof HttpError ? error : null;
-  if (error.type === 'entity.parse.failed') known = new HttpError(400, 'INVALID_JSON', 'Send valid JSON.');
-  if (error.type === 'entity.too.large') known = new HttpError(413, 'REQUEST_TOO_LARGE', 'The request is too large.');
+  if (error.type === 'entity.parse.failed')
+    known = new HttpError(400, 'INVALID_JSON', 'Send valid JSON.');
+  if (error.type === 'entity.too.large')
+    known = new HttpError(
+      413,
+      'REQUEST_TOO_LARGE',
+      'The request is too large.',
+    );
   if (!known) {
     console.error('Unexpected request failure', error.name);
-    known = new HttpError(500, 'INTERNAL_ERROR', 'Something went wrong. Please try again.');
+    known = new HttpError(
+      500,
+      'INTERNAL_ERROR',
+      'Something went wrong. Please try again.',
+    );
   }
-  res.status(known.status).json({ error: { code: known.code, message: known.message, field: known.field } });
+  res.status(known.status).json({
+    error: { code: known.code, message: known.message, field: known.field },
+  });
 }

@@ -12,11 +12,16 @@ export async function api(path, { method = 'GET', body, signal } = {}) {
   if (method !== 'GET') headers['X-Sweety-Request'] = '1';
   if (body !== undefined) headers['Content-Type'] = 'application/json';
   const response = await fetch(`/api${path}`, {
-    method, headers, body: JSON.stringify(body), signal, credentials: 'same-origin',
+    method,
+    headers,
+    body: JSON.stringify(body),
+    signal,
+    credentials: 'same-origin',
   });
   const payload = await response.json().catch(() => null);
   if (!response.ok || !payload) {
-    if (payload?.error?.code === 'UNAUTHENTICATED') window.dispatchEvent(new Event('sweety:session-expired'));
+    if (payload?.error?.code === 'UNAUTHENTICATED')
+      window.dispatchEvent(new Event('sweety:session-expired'));
     throw new ApiError(response.status, payload?.error);
   }
   return payload.data;

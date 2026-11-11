@@ -36,16 +36,16 @@ CREATE DATABASE sweety_test OWNER sweety;
 
 ### Environment variables
 
-| Variable | Purpose | Development example |
-| --- | --- | --- |
-| `NODE_ENV` | Environment mode | `development` |
-| `PORT` | Express loopback port. Vite proxies API calls to this port. | `4000` |
-| `APP_ORIGIN` | Exact browser origin, without a trailing slash | `http://127.0.0.1:5173` |
-| `DATABASE_URL` | PostgreSQL connection URL | `postgresql://sweety:local_sweety_password@127.0.0.1:5432/sweety` |
+| Variable            | Purpose                                                                                       | Development example                                                    |
+| ------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `NODE_ENV`          | Environment mode                                                                              | `development`                                                          |
+| `PORT`              | Express loopback port. Vite proxies API calls to this port.                                   | `4000`                                                                 |
+| `APP_ORIGIN`        | Exact browser origin, without a trailing slash                                                | `http://127.0.0.1:5173`                                                |
+| `DATABASE_URL`      | PostgreSQL connection URL                                                                     | `postgresql://sweety:local_sweety_password@127.0.0.1:5432/sweety`      |
 | `TEST_DATABASE_URL` | Separate PostgreSQL database ending in `_test`. The test role must be able to create schemas. | `postgresql://sweety:local_sweety_password@127.0.0.1:5432/sweety_test` |
-| `JWT_SECRET` | Secret for signing the session cookie | Random value generated above |
-| `APP_TIME_ZONE` | IANA timezone used for the application calendar | `Asia/Kolkata` |
-| `TRUST_PROXY_HOPS` | Trusted reverse-proxy hop count | `0` |
+| `JWT_SECRET`        | Secret for signing the session cookie                                                         | Random value generated above                                           |
+| `APP_TIME_ZONE`     | IANA timezone used for the application calendar                                               | `Asia/Kolkata`                                                         |
+| `TRUST_PROXY_HOPS`  | Trusted reverse-proxy hop count                                                               | `0`                                                                    |
 
 ### Migrate, seed, and start
 
@@ -57,10 +57,10 @@ npm run dev
 
 Open [Sweety](http://127.0.0.1:5173). The seed is optional and can be rerun. It adds sample readings for the current date and previous month while preserving existing readings for the demo account.
 
-| Demo field | Value |
-| --- | --- |
-| Email | `demo@sweety.example` |
-| Password | `SweetyDemo!2026` |
+| Demo field | Value                 |
+| ---------- | --------------------- |
+| Email      | `demo@sweety.example` |
+| Password   | `SweetyDemo!2026`     |
 
 To run the two development processes in separate terminals, use `npm run dev -w server` for Express and `npm run dev -w client` for Vite.
 
@@ -98,21 +98,21 @@ This captures `screenshots/dashboard.png`, `screenshots/reports.png`, and `scree
 
 Requests and responses use JSON. Success responses use `{ "data": ... }` and errors use `{ "error": { "code": "...", "message": "...", "field": "..." } }`. The field is included when a specific input is invalid. Send `X-Sweety-Request: 1` on write requests. Browser write requests must come from the configured origin. Cookie-aware API clients can reuse the session cookie after login.
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| GET | `/api/config` | Application calendar timezone |
-| POST | `/api/auth/register` | Create an account and sign in |
-| POST | `/api/auth/login` | Sign in |
-| POST | `/api/auth/logout` | Revoke the current session and clear its cookie |
-| GET | `/api/auth/me` | Retrieve the signed-in account |
-| GET | `/api/readings?date=YYYY-MM-DD` | List readings for a date. Omit the date for the full history. |
-| POST | `/api/readings` | Create a reading |
-| GET | `/api/readings/:id` | Retrieve a reading |
-| PUT | `/api/readings/:id` | Replace a reading's date, slot, and value |
-| DELETE | `/api/readings/:id` | Delete a reading |
-| GET | `/api/reports/daily?date=YYYY-MM-DD` | Selected date, including its individual readings |
-| GET | `/api/reports/month-to-date?date=YYYY-MM-DD` | First day of the selected month through the selected date |
-| GET | `/api/reports/monthly?date=YYYY-MM-DD` | Whole calendar month before the selected date's month |
+| Method | Path                                         | Purpose                                                       |
+| ------ | -------------------------------------------- | ------------------------------------------------------------- |
+| GET    | `/api/config`                                | Application calendar timezone                                 |
+| POST   | `/api/auth/register`                         | Create an account and sign in                                 |
+| POST   | `/api/auth/login`                            | Sign in                                                       |
+| POST   | `/api/auth/logout`                           | Revoke the current session and clear its cookie               |
+| GET    | `/api/auth/me`                               | Retrieve the signed-in account                                |
+| GET    | `/api/readings?date=YYYY-MM-DD`              | List readings for a date. Omit the date for the full history. |
+| POST   | `/api/readings`                              | Create a reading                                              |
+| GET    | `/api/readings/:id`                          | Retrieve a reading                                            |
+| PUT    | `/api/readings/:id`                          | Replace a reading's date, slot, and value                     |
+| DELETE | `/api/readings/:id`                          | Delete a reading                                              |
+| GET    | `/api/reports/daily?date=YYYY-MM-DD`         | Selected date, including its individual readings              |
+| GET    | `/api/reports/month-to-date?date=YYYY-MM-DD` | First day of the selected month through the selected date     |
+| GET    | `/api/reports/monthly?date=YYYY-MM-DD`       | Whole calendar month before the selected date's month         |
 
 A reading body is `{ "date": "2026-10-15", "slot": "morning", "value": 105 }`. Slot keys are `morning`, `after_breakfast`, `after_lunch`, and `after_dinner`. All reading and report routes require a valid session. Requests for another account's reading ID return 404.
 

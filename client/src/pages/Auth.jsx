@@ -31,26 +31,70 @@ export default function Auth({ mode }) {
     }
   }
 
-  return <main className="auth-shell">
-    <div className="auth-card">
-      <Brand />
-      <h1>{register ? 'Create your account' : 'Welcome back'}</h1>
-      <p className="muted">{register ? 'Start your personal glucose log.' : 'Log in to view your glucose log.'}</p>
-      <form className="form-stack" onSubmit={submit}>
-        {register && <label>Name<input name="name" autoComplete="name" maxLength="100" required aria-invalid={field === 'name'} /></label>}
-        <label>Email<input type="email" name="email" autoComplete="email" maxLength="254" required aria-invalid={field === 'email'} /></label>
-        <label>Password<input type="password" name="password" autoComplete={register ? 'new-password' : 'current-password'}
-          minLength={register ? 8 : undefined} required aria-invalid={field === 'password'} />
-          {register && <span className="field-hint">Use at least 8 characters.</span>}
-        </label>
-        {error && <p className="error-text" role="alert">{error}</p>}
-        <button className="button primary" type="submit" disabled={pending}>
-          {pending ? 'Please wait…' : register ? 'Create account' : 'Log in'}
-        </button>
-      </form>
-      <p className="auth-switch">{register ? 'Already have an account?' : 'New to Sweety?'}{' '}
-        <Link to={register ? '/login' : '/register'}>{register ? 'Log in' : 'Create an account'}</Link>
-      </p>
-    </div>
-  </main>;
+  return (
+    <main className="auth-shell">
+      <div className="auth-card">
+        <Brand />
+        <h1>{register ? 'Create your account' : 'Welcome back'}</h1>
+        <p className="muted">
+          {register
+            ? 'Start your personal glucose log.'
+            : 'Log in to view your glucose log.'}
+        </p>
+        <form className="form-stack" onSubmit={submit}>
+          {register && (
+            <label>
+              Name
+              <input
+                name="name"
+                autoComplete="name"
+                maxLength="100"
+                required
+                aria-invalid={field === 'name'}
+              />
+            </label>
+          )}
+          <label>
+            Email
+            <input
+              type="email"
+              name="email"
+              autoComplete="email"
+              maxLength="254"
+              required
+              aria-invalid={field === 'email'}
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              autoComplete={register ? 'new-password' : 'current-password'}
+              minLength={register ? 8 : undefined}
+              required
+              aria-invalid={field === 'password'}
+            />
+            {register && (
+              <span className="field-hint">Use at least 8 characters.</span>
+            )}
+          </label>
+          {error && (
+            <p className="error-text" role="alert">
+              {error}
+            </p>
+          )}
+          <button className="button primary" type="submit" disabled={pending}>
+            {pending ? 'Please wait…' : register ? 'Create account' : 'Log in'}
+          </button>
+        </form>
+        <p className="auth-switch">
+          {register ? 'Already have an account?' : 'New to Sweety?'}{' '}
+          <Link to={register ? '/login' : '/register'}>
+            {register ? 'Log in' : 'Create an account'}
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
 }

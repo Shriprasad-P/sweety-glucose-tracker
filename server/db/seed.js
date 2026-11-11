@@ -3,7 +3,8 @@ import pg from 'pg';
 import { calendarToday, reportRange, slots } from '../../shared/glucose.js';
 import { bcryptCost } from '../src/auth.js';
 
-if (process.env.NODE_ENV === 'production') throw new Error('Demo seeding is disabled in production.');
+if (process.env.NODE_ENV === 'production')
+  throw new Error('Demo seeding is disabled in production.');
 if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is required.');
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 try {
@@ -13,7 +14,9 @@ try {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const { rows: [user] } = await client.query(
+    const {
+      rows: [user],
+    } = await client.query(
       `INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3)
        ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email
        WHERE users.name = EXCLUDED.name

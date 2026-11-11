@@ -10,7 +10,9 @@ export default defineConfig(({ mode }) => {
     envDir,
     plugins: [react(), tailwindcss()],
     server: {
-      proxy: { '/api': `http://127.0.0.1:${process.env.PORT ?? env.PORT ?? 4000}` },
+      proxy: {
+        '/api': `http://127.0.0.1:${process.env.PORT ?? env.PORT ?? 4000}`,
+      },
     },
   };
 });

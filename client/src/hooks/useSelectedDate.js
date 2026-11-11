@@ -7,10 +7,12 @@ export function useSelectedDate() {
   const { timeZone } = useSession();
   const today = calendarToday(timeZone);
   const requested = params.get('date');
-  const date = isCalendarDate(requested) && requested <= today ? requested : today;
+  const date =
+    isCalendarDate(requested) && requested <= today ? requested : today;
 
   function setDate(next) {
-    if (isCalendarDate(next) && next <= today) setParams({ date: next }, { replace: true });
+    if (isCalendarDate(next) && next <= today)
+      setParams({ date: next }, { replace: true });
   }
 
   return { date, setDate, today };

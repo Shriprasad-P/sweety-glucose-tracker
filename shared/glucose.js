@@ -15,28 +15,40 @@ export const messages = {
 };
 
 export function isCalendarDate(value) {
-  if (typeof value !== 'string' || !/^(?!0000)\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  if (typeof value !== 'string' || !/^(?!0000)\d{4}-\d{2}-\d{2}$/.test(value))
+    return false;
   const parsed = new Date(`${value}T00:00:00Z`);
-  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  return (
+    Number.isFinite(parsed.getTime()) &&
+    parsed.toISOString().slice(0, 10) === value
+  );
 }
 
 export function calendarToday(timeZone, now = new Date()) {
   const parts = new Intl.DateTimeFormat('en', {
-    year: 'numeric', month: '2-digit', day: '2-digit', timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone,
   }).formatToParts(now);
-  const fields = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+  const fields = Object.fromEntries(
+    parts.map(({ type, value }) => [type, value]),
+  );
   return `${fields.year}-${fields.month}-${fields.day}`;
 }
 
 export function glucoseError(value) {
-  if (value === '' || value === undefined || value === null) return messages.missingValue;
-  if (!Number.isInteger(value) || value < 40 || value > 600) return messages.invalidValue;
+  if (value === '' || value === undefined || value === null)
+    return messages.missingValue;
+  if (!Number.isInteger(value) || value < 40 || value > 600)
+    return messages.invalidValue;
   return null;
 }
 
 export function reportRange(kind, date) {
   if (kind === 'daily') return { start: date, end: date };
-  if (kind === 'month-to-date') return { start: `${date.slice(0, 7)}-01`, end: date };
+  if (kind === 'month-to-date')
+    return { start: `${date.slice(0, 7)}-01`, end: date };
   const end = new Date(`${date.slice(0, 7)}-01T00:00:00Z`);
   end.setUTCDate(0);
   const last = end.toISOString().slice(0, 10);
