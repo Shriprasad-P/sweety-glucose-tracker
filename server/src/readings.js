@@ -16,7 +16,7 @@ const readingInput = z.object({
 }).strict();
 
 const readingId = z.uuid({ error: 'Enter a valid reading ID.' });
-export const columns = 'id, reading_date::text AS date, time_slot AS slot, glucose_value AS value';
+export const columns = "id, to_char(reading_date, 'YYYY-MM-DD') AS date, time_slot AS slot, glucose_value AS value";
 export const order = `reading_date DESC, CASE time_slot
   WHEN 'morning' THEN 1 WHEN 'after_breakfast' THEN 2 WHEN 'after_lunch' THEN 3 ELSE 4 END`;
 
@@ -98,7 +98,7 @@ export function createReadings({ pool, config, now }) {
     } catch (error) {
       if (!isSlotConflict(error)) throw error;
       const { rows: [current] } = await pool.query(
-        'SELECT reading_date::text AS date FROM readings WHERE user_id = $1 AND id = $2',
+        "SELECT to_char(reading_date, 'YYYY-MM-DD') AS date FROM readings WHERE user_id = $1 AND id = $2",
         [req.user.id, id],
       );
       await throwSlotConflict(pool, req.user.id, input, requireReading(current).date !== input.date);

@@ -105,7 +105,7 @@
   .form-stack input, .form-stack select, .form-stack .field-hint:last-child { grid-column: 1 / -1; }
   .field-hint { @apply text-xs font-normal text-muted; }
   .dialog {
-    @apply fixed m-auto max-h-[calc(100dvh-2rem)] w-[min(29rem,calc(100%-2rem))] overflow-auto rounded-2xl border border-line bg-white p-5 text-ink shadow-xl;
+    @apply fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[min(29rem,calc(100%-2rem))] overflow-auto rounded-2xl border border-line bg-white p-5 text-ink shadow-xl;
   }
   .dialog::backdrop { background: rgb(15 36 28 / 46%); }
   .dialog header { @apply mb-4 flex items-center justify-between gap-3; }
