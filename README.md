@@ -79,7 +79,7 @@ npm run build
 
 The API tests create and remove a unique schema in `TEST_DATABASE_URL`. They use real PostgreSQL constraints and aggregates. The main application's database is independent of the test database.
 
-To exercise the browser workflow, configure the app to use a disposable development database and run the migrations first. Playwright starts the development server automatically when it is not already running.
+To exercise the browser workflow, configure the app to use a disposable development database and run the migrations first. Playwright builds the app and starts it at `http://127.0.0.1:4173`. Set `SWEETY_E2E_URL` to test an already-running local instance.
 
 ```sh
 npx playwright install chromium

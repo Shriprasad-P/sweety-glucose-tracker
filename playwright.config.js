@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
-const baseURL = process.env.SWEETY_E2E_URL ?? 'http://127.0.0.1:5173';
-const host = new URL(baseURL).hostname;
+const baseURL = process.env.SWEETY_E2E_URL ?? 'http://127.0.0.1:4173';
+const { hostname: host, port } = new URL(baseURL);
 if (!['127.0.0.1', 'localhost', '[::1]'].includes(host)) {
   throw new Error(
     'Browser tests must run against a local Sweety development instance.',
@@ -13,11 +13,11 @@ export default defineConfig({
   webServer: process.env.SWEETY_E2E_URL
     ? undefined
     : {
-        command: 'npm run dev',
+        command: 'npm run build && npm start',
         url: `${baseURL}/api/config`,
-        reuseExistingServer: !process.env.CI,
+        env: { APP_ORIGIN: baseURL, PORT: port, NODE_ENV: 'development' },
         stdout: 'pipe',
-        timeout: 30_000,
+        timeout: 60_000,
       },
   use: {
     baseURL,
