@@ -10,6 +10,15 @@ if (!['127.0.0.1', 'localhost', '[::1]'].includes(host)) {
 
 export default defineConfig({
   testDir: './e2e',
+  webServer: process.env.SWEETY_E2E_URL
+    ? undefined
+    : {
+        command: 'npm run dev',
+        url: `${baseURL}/api/config`,
+        reuseExistingServer: !process.env.CI,
+        stdout: 'pipe',
+        timeout: 30_000,
+      },
   use: {
     baseURL,
     browserName: 'chromium',
